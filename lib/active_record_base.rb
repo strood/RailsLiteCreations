@@ -1,83 +1,26 @@
 require_relative "../db/db_connection.rb"
 require "active_support/inflector"
-# NB: the attr_accessor we wrote in phase 0 is NOT used in the rest
-# of this project. It was only a warm up.
-
-module Associatable
-  # Phase IIIb
-  def belongs_to(name, options = {})
-    # ...
-    self.assoc_options[name] = BelongsToOptions.new(name, options)
-
-    define_method(name) do
-      options = self.class.assoc_options[name]
-
-      key_val = self.send(options.foreign_key)
-      options.model_class.where(options.primary_key => key_val).first
-    end
-  end
-
-  def has_many(name, options = {})
-    # ...
-    self.assoc_options[name] = HasManyOptions.new(name, self.name, options)
-
-    define_method(name) do
-      options = self.class.assoc_options[name]
-
-      key_val = self.send(options.primary_key)
-      options.model_class.where(options.foreign_key => key_val)
-    end
-  end
-
-  def assoc_options
-    # Wait to implement this in Phase IVa. Modify `belongs_to`, too.
-    @assoc_options ||= {}
-    @assoc_options
-  end
-
-  def has_one_through(name, through_name, source_name)
-    # ...
-    define_method(name) do
-      through_options = self.class.assoc_options[through_name]
-      source_options =
-        through_options.model_class.assoc_options[source_name]
-
-      through_table = through_options.table_name
-      through_pk = through_options.primary_key
-      through_fk = through_options.foreign_key
-
-      source_table = source_options.table_name
-      source_pk = source_options.primary_key
-      source_fk = source_options.foreign_key
-
-      key_val = self.send(through_fk)
-      results = DBConnection.execute(<<-SQL, key_val)
-        SELECT
-          #{source_table}.*
-        FROM
-          #{through_table}
-        JOIN
-          #{source_table}
-        ON
-          #{through_table}.#{source_fk} = #{source_table}.#{source_pk}
-        WHERE
-          #{through_table}.#{through_pk} = ?
-      SQL
-
-      source_options.model_class.parse_all(results).first
-    end
-  end
-end
 
 class SQLObject
-  # Mixin Associatable module to group in all
-  extend Associatable
+
+  def initialize(params = {})
+    # Iterate through each of the k,v pairs, convery k to sym and see if in columns, if not error
+    # set the attribute if no error, using send.
+    params.each do |attr_name, value|
+      attr_name = attr_name.to_sym
+      if self.class.columns.include?(attr_name)
+        self.send("#{attr_name}=", value)
+      else
+        raise "unknown attribute '#{attr_name}'"
+      end
+    end
+  end
 
   def self.columns
     # return an array of symbols, corrospnding to the columns in our db table
     return @columns if @columns
 
-    cols = DBConnection.execute2(<<-SQL)
+    cols = DBConnection.execute2(<<-SQL).first
     SELECT
       *
     FROM
@@ -103,12 +46,10 @@ class SQLObject
   end
 
   def self.table_name=(table_name)
-    # ...
     @table_name = table_name
   end
 
   def self.table_name
-    # ...
     @table_name ||= "#{self}".tableize
   end
 
@@ -147,18 +88,6 @@ class SQLObject
     parse_all(db_return).first
   end
 
-  def initialize(params = {})
-    # Iterate through each of the k,v pairs, convery k to sym and see if in columns, if not error
-    # set the attribute if no error, using send.
-    params.each do |attr_name, value|
-      attr_name = attr_name.to_sym
-      if self.class.columns.include?(attr_name)
-        self.send("#{attr_name}=", value)
-      else
-        raise "unknown attribute '#{attr_name}'"
-      end
-    end
-  end
 
   def attributes
     # Return a hash of all our models columns, and values
@@ -225,57 +154,6 @@ class SQLObject
       self.update
     else
       self.insert
-    end
-  end
-end
-
-
-# MODULE TO EXTEND SQL OBJECT AND ADD ASSOCIATABLILITY
-
-class AssocOptions
-  attr_accessor(
-    :foreign_key,
-    :class_name,
-    :primary_key
-  )
-
-  def model_class
-    # return class name of the model called on
-    @class_name.constantize
-  end
-
-  def table_name
-    # returns table name of the model called on
-    model_class.table_name
-  end
-end
-
-class BelongsToOptions < AssocOptions
-  def initialize(name, options = {})
-    # provide default values for the 3 attributes for a new SQLObject
-    # :foreign_key, :primary_key, :class_name
-    defaults = {
-      :foreign_key => "#{name}_id".to_sym,
-      :primary_key => :id,
-      :class_name => name.to_s.camelcase,
-    }
-
-    defaults.keys.each do |key|
-      self.send("#{key}=", options[key] || defaults[key])
-    end
-  end
-end
-
-class HasManyOptions < AssocOptions
-  def initialize(name, self_class_name, options = {})
-    defaults = {
-      :foreign_key => "#{self_class_name.underscore}_id".to_sym,
-      :class_name => name.to_s.singularize.camelcase,
-      :primary_key => :id,
-    }
-
-    defaults.keys.each do |key|
-      self.send("#{key}=", options[key] || defaults[key])
     end
   end
 end

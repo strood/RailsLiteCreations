@@ -61,7 +61,6 @@ class ShowExceptions
     file_location = error_file(e)
     line_num = error_line(e)
     file_source = File.open(file_location, 'r')
-    # extract_source(file_source, line_num)
     lines = file_source.readlines
     lines[(error_line(e) - 5)..(error_line(e) + 5)]
 

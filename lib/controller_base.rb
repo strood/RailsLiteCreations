@@ -59,15 +59,17 @@ class ControllerBase
   # pass the rendered html to render_content
   def render(template_name)
 
-      # Contruct path to template file, using File methods to make flexible
+      # Construct path to template file, using File methods to make flexible
       # incase we decide to publish as gem.
+
       path = File.dirname(__FILE__)
       template_fname = File.join(
-        path, "..",
-        "views", self.class.name.underscore, "#{template_name}.html.erb"
+        path, '..',
+        "app/views", self.class.name.underscore, "#{template_name}.html.erb"
       )
       # Above leaves us with something like: (whatever path to stuff exists)
       # /home/strood/Dev/aA-projects/RailsLite/lib/../views/MyController/show.html.erb
+
 
       # Read template file, gathering each line of code
       lines = File.read(template_fname)
@@ -136,4 +138,3 @@ class ControllerBase
   end
 
 end
-

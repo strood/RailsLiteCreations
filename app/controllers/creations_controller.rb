@@ -6,14 +6,14 @@ class CreationsController < ControllerBase
 
   def index
     # List all of our creations
-		# render_content("Hello World - Index Pg", "text/html")
-    raise "Help, abort abort!" # JUst have this here to test functionality of show_exception
+    @creations = Creation.create(name: "Testy Fat Lion", owner: "George")
+		render(:index)
   end
 
   def new
     # render page to select params for new creation
-    
-    render_content("Hello World - New Pg", "text/html")
+
+    render(:new)
   end
 
   def show
@@ -23,6 +23,12 @@ class CreationsController < ControllerBase
 
 	def create
     #creates a new creation with the given params, renders the creation show page
-    render_content("Hello World - Create Pg", "text/html")
+    @name = params["creation"]["first-descriptor"]
+    @name << params["creation"]["second-descriptor"]
+    @name << params["creation"]["noun"]
+    @owner_name = params["creation"]["owner"]
+    @creation = Creation.new(name: @name, owner: @owner)
+    # @creation.save!
+    render_content("Name:#{@name}, Owner: #{@owner_name} Creation: #{@creation.name}" , "text/html")
 	end
 end

@@ -18,7 +18,7 @@ class DBConnection
   def self.reset
     commands = [
       "rm '#{CREATIONS_DB_FILE}'",
-      "cat '#{CCREATIONS_SQL_FILE}' | sqlite3 '#{CREATIONS_DB_FILE}'"
+      "cat '#{CREATIONS_SQL_FILE}' | sqlite3 '#{CREATIONS_DB_FILE}'"
     ]
 
     commands.each { |command| `#{command}` }

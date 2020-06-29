@@ -12,10 +12,12 @@ GEM
       concurrent-ruby (~> 1.0)
     minitest (5.14.1)
     rack (2.2.3)
+    singleton (0.1.0)
+    sqlite3 (1.4.2)
     thread_safe (0.3.6)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
-    zeitwerk (2.3.0)
+    zeitwerk (2.3.1)
 
 PLATFORMS
   ruby
@@ -23,6 +25,8 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   rack
+  singleton
+  sqlite3
 
 BUNDLED WITH
    2.1.4
