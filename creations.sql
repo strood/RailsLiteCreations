@@ -1,10 +1,14 @@
 CREATE TABLE creations (
   id INTEGER PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  owner_name VARCHAR(255) NOT NULL
+  owner_id INTEGER NOT NULL,
+  creation_name VARCHAR(255) NOT NULL,
+  creation_rating INTEGER,
+
+  FOREIGN KEY (owner_id) REFERENCES owners(id)
 );
 
-INSERT INTO
-  creations (id, name, owner_name)
-VALUES
-  (1, "Scared Green Gecko", "Charles")
+CREATE TABLE owners (
+  id INTEGER PRIMARY KEY,
+  owner_name VARCHAR(255) NOT NULL,
+  owner_rating INTEGER
+);

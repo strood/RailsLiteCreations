@@ -1,0 +1,16 @@
+<h1>All the owners!</h1>
+<ul>
+<% @owners.each do |owner| %>
+  <li>
+    <h3>
+      Name: <%= owner.owner_name %>
+    </h3>
+    <h4>
+      Creations: *list creation names here*
+    </h4>
+  </li>
+<% end %>
+</ul>
+<br>
+
+<a href="/creations/new">New Creation!</a>

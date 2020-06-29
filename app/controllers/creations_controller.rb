@@ -1,8 +1,10 @@
 require_relative '../../lib/controller_base.rb'
 require_relative '../models/creation.rb'
+require_relative '../models/owner.rb'
 
 class CreationsController < ControllerBase
   # protect_from_forgery    -----TODO: Enable this
+
 
   def index
     # List all of our creations
@@ -37,11 +39,25 @@ class CreationsController < ControllerBase
     @name = params["creation"]["first-descriptor"] + " "
     @name << params["creation"]["second-descriptor"] + " "
     @name << params["creation"]["noun"]
-    @owner_name = params["creation"]["owner"]
-    @creation = Creation.new
-    @creation.name = @name
-    @creation.owner_name = @owner_name
-    @creation.insert
+
+    @owner_name = params["creation"]["owner_name"]
+    @owner = Owner.find_by_name(@owner_name)
+    if !@owner.first
+      @owner = Owner.new
+      @owner.owner_name = @owner_name
+      @owner.owner_rating = 0
+      @owner.insert
+      @creation = Creation.new
+      @creation.creation_name = @name
+      @creation.owner_id = @owner.id
+      @creation.insert
+    else
+      @creation = Creation.new
+      @creation.creation_name = @name
+      @creation.owner_id = @owner.first.id
+      @creation.insert
+    end
+
 
     @creation.id
   end

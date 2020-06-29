@@ -2,6 +2,7 @@ require 'rack'
 require_relative '../lib/router'
 require_relative '../lib/show_exceptions'
 require_relative '../app/controllers/creations_controller'
+require_relative '../app/controllers/owners_controller'
 
 router = Router.new
 
@@ -12,6 +13,9 @@ router.draw do
 	get Regexp.new("/creations/new$"), CreationsController, :new
 	get Regexp.new("creations/(?<id>\\d+)$"), CreationsController, :show
 	post Regexp.new("/creations$"), CreationsController, :create
+
+	get Regexp.new("/owners$"), OwnersController, :index
+	get Regexp.new("/owners/(?<id>\\d+)$"), OwnersController, :show
 end
 
 app = Proc.new do |env|
