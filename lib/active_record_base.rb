@@ -20,7 +20,7 @@ class SQLObject
     # return an array of symbols, corrospnding to the columns in our db table
     return @columns if @columns
 
-    cols = DBConnection.execute2(<<-SQL).first
+    cols = DBConnection.execute2(<<-SQL)
     SELECT
       *
     FROM

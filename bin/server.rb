@@ -22,7 +22,7 @@ app = Proc.new do |env|
 end
 
 app = Rack::Builder.new do
-  use ShowExceptions
+  # use ShowExceptions
   run app
 end.to_app
 

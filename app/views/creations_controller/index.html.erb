@@ -1,15 +1,15 @@
 <h1>All the creations!</h1>
 <ul>
-
+<% @creations.each do |creation| %>
   <li>
     <h3>
-      <%= @creations.attributes %>
+      Name: <%= creation.name %>
     </h3>
     <h4>
-
+      Owner: <%= creation.owner_name %>
     </h4>
   </li>
-
+<% end %>
 </ul>
 <br>
 

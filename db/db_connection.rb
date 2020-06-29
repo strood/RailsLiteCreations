@@ -3,8 +3,13 @@ require 'sqlite3'
 PRINT_QUERIES = ENV['PRINT_QUERIES'] == 'true'
 # https://tomafro.net/2010/01/tip-relative-paths-with-file-expand-path
 ROOT_FOLDER = File.join(File.dirname(__FILE__), '..')
+# Toggle these for different DB names
 CREATIONS_SQL_FILE = File.join(ROOT_FOLDER, 'creations.sql')
 CREATIONS_DB_FILE = File.join(ROOT_FOLDER, 'creations.db')
+# ADDED AS WORKAROUND TO COMMENTING OUT CODE IN self.reset
+# false = no reset when server started/stopped
+# true = any creations you saved to db will be reset on server shutdown/reset
+RESET_DB_ON_SHUTDOWN = false
 
 class DBConnection
   def self.open(db_file_name)
@@ -16,12 +21,18 @@ class DBConnection
   end
 
   def self.reset
+    # Did have these lines in that would wipe the server each time i shut it down
+    # Included workaround for persistance above, toggle global var for persistance
+    # not sure what calls reset, believe puma, but was unable to find another workaround.
     commands = [
       "rm '#{CREATIONS_DB_FILE}'",
       "cat '#{CREATIONS_SQL_FILE}' | sqlite3 '#{CREATIONS_DB_FILE}'"
     ]
+    # Only reset server on shutdown if specified in global
+    if RESET_DB_ON_SHUTDOWN
+      commands.each { |command| `#{command}` }
+    end
 
-    commands.each { |command| `#{command}` }
     DBConnection.open(CREATIONS_DB_FILE)
   end
 
