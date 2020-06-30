@@ -2,9 +2,13 @@
 
 <form action="/creations" method="POST">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <label>Name:
+  <label>Descriptor 1:
     <input type="text" name="creation[first-descriptor]" value="">
+  </label>
+  <label>Descriptor 2:
     <input type="text" name="creation[second-descriptor]" value="">
+  </label>
+  <label>Object:
     <input type="text" name="creation[noun]" value="">
   </label>
 
