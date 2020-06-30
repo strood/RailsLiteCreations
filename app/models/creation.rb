@@ -3,7 +3,8 @@ require_relative '../../db/db_connection'
 
 class Creation < SQLObject
   attr_accessor :id, :owner_id, :creation_name, :creation_rating
-    # TODO : belongs_to association
+
+  belongs_to :owner
 
   self.table_name = 'creations'
 

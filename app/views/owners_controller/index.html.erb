@@ -6,9 +6,17 @@
       Name: <%= owner.owner_name %>
     </h3>
     <h4>
-      Creations: *list creation names here*
+      Creator of:
     </h4>
+      <ul>
+        <%  owner.creations.each do |creation| %>
+        <li>
+          <a href="/creations/<%= creation.id %>"><%= creation.creation_name %></a>
+        </li>
+        <% end %>
+      </ul>
   </li>
+
 <% end %>
 </ul>
 <br>

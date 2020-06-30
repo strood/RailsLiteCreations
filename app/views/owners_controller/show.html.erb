@@ -1,11 +1,14 @@
 <h1><%= @owner.owner_name %> Page</h1>
 
-<h2>My ID is:</h2>
-<h3> <%= @owner.id %> </h3>
-<br>
-
+<h2>ID: <%= @owner.id %></h2>
 <h2>My Creations:</h2>
-<h3>list creations here</h3>
+<ul>
+  <% @owner.creations.each do |creation| %>
+  <li>
+    <%= creation.creation_name %> - <a href="/creations/<%= creation.id %>">View</a>
+  </li>
+<% end %>
+</ul>
 
 <a href="/creations">All Creations!</a>
 <br>

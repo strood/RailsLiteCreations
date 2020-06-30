@@ -3,7 +3,7 @@ require_relative '../models/creation.rb'
 require_relative '../models/owner.rb'
 
 class CreationsController < ControllerBase
-  # protect_from_forgery    -----TODO: Enable this
+  protect_from_forgery
 
 
   def index

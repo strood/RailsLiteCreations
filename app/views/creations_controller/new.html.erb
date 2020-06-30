@@ -1,6 +1,7 @@
 <h1>Make a new creation!</h1>
 
 <form action="/creations" method="POST">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <label>Name:
     <input type="text" name="creation[first-descriptor]" value="">
     <input type="text" name="creation[second-descriptor]" value="">
@@ -13,3 +14,14 @@
 
   <input type="submit">
 </form>
+
+<h3>
+  <a href="/creations">
+    Back to all creations
+  </a>
+</h3>
+<h3>
+  <a href="/owners">
+    Back to all owners
+  </a>
+</h3>

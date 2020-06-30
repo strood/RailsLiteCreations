@@ -3,7 +3,8 @@ require_relative '../../db/db_connection'
 
 class Owner < SQLObject
   attr_accessor :id, :owner_name, :owner_rating
-    # TODO : mas_many association
+
+  has_many :creations
 
   self.table_name = 'owners'
 

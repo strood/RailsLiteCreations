@@ -1,7 +1,11 @@
 require_relative "../db/db_connection.rb"
+require_relative "./active_record_ext.rb"
 require "active_support/inflector"
 
+
 class SQLObject
+
+  extend Associatable
 
   def initialize(params = {})
     # Iterate through each of the k,v pairs, convery k to sym and see if in columns, if not error
@@ -131,8 +135,25 @@ class SQLObject
       id = ?
     SQL
   end
+  # 
+  # def where(params)
+  #   # search for our specific cat baes in params passed in as hash
+  #   where_line = params.each_key.map { |key| "#{key} = ?" }.join(" AND ")
+  #
+  #   db_return = DBConnection.execute(<<-SQL, *params.values)
+  #   SELECT
+  #     *
+  #   FROM
+  #     #{table_name}
+  #   WHERE
+  #     #{where_line}
+  #   SQL
+  #
+  #   parse_all(db_return)
+  # end
 
-  def where(params)
+
+  def self.where(params)
     # search for our specific cat baes in params passed in as hash
     where_line = params.each_key.map { |key| "#{key} = ?" }.join(" AND ")
 

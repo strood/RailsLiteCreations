@@ -1,11 +1,15 @@
 <h1><%= @creation.creation_name %> Page</h1>
+<h2>ID: <%= @creation.id %></h2>
 
-<h2>My owners id is:</h2>
-<h3><%= @creation.owner_id %></h3>
+<h2>My owners name is:</h2>
 
-<h2>My ID is:</h2>
-<h3> <%= @creation.id %> </h3>
-<br>
+<h3>
+  <a href="/owners/<%= @creation.owner.id %>">
+    <%= @creation.owner.owner_name %>
+  </a>
+</h3>
+
+ <br>
 
 <a href="/creations">All Creations!</a>
 <br>

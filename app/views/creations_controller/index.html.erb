@@ -3,10 +3,16 @@
 <% @creations.each do |creation| %>
   <li>
     <h3>
-      Name: <%= creation.creation_name %>
+      Name:
+      <a href="creations/<%= creation.id %>">
+        <%= creation.creation_name %>
+      </a>
     </h3>
     <h4>
-      Owner: <%= creation.owner_id %>
+      Owner:
+      <a href="owners/<%= creation.owner_id %>">
+        <%= creation.owner.owner_name %>
+      </a>
     </h4>
   </li>
 <% end %>
@@ -14,3 +20,5 @@
 <br>
 
 <a href="/creations/new">New Creation!</a>
+<br>
+<a href="/owners">All Owners</a>
