@@ -1,14 +1,16 @@
 # RailsLiteCreations
 
-Simple application built on strood/RailsLite project, alongside strood/ActiveRecordLite.
-Built these web frameworks for AppAcademy projects.
+- Simple application built on https://github.com/strood/RailsLite
+- Create strange names for creations and save them to database, browse all
+  creations
 
-Setup environment:
-- $ bundle update
-- $ bundle install
+## Setup environment:
+> $ bundle update
 
-To initialize database:
-- $ cat creations.sql | sqlite3 creations.db
+> $ bundle install
 
-To start server on port 3000:
-- $ ruby bin/server.rb
+### To initialize database:
+> $ cat creations.sql | sqlite3 creations.db
+
+### To start server on port 3000:
+> $ ruby bin/server.rb

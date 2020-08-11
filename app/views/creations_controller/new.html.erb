@@ -1,19 +1,19 @@
 <h1>Make a new creation!</h1>
 
-<form action="/creations" method="POST">
+<form style="display: flex; flex-direction:column" action="/creations" method="POST">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <label>Descriptor 1:
-    <input type="text" name="creation[first-descriptor]" value="">
+    <input required type="text" name="creation[first-descriptor]" value="">
   </label>
   <label>Descriptor 2:
-    <input type="text" name="creation[second-descriptor]" value="">
+    <input required type="text" name="creation[second-descriptor]" value="">
   </label>
   <label>Object:
-    <input type="text" name="creation[noun]" value="">
+    <input required type="text" name="creation[noun]" value="">
   </label>
 
   <label>Owner
-    <input type="text" name="creation[owner_name]" value="">
+    <input required type="text" name="creation[owner_name]" value="">
   </label>
 
   <input type="submit">
