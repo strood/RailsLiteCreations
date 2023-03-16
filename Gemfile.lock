@@ -11,7 +11,7 @@ GEM
     i18n (1.8.3)
       concurrent-ruby (~> 1.0)
     minitest (5.14.1)
-    rack (2.2.3)
+    rack (2.2.6.4)
     singleton (0.1.0)
     sqlite3 (1.4.2)
     thread_safe (0.3.6)
